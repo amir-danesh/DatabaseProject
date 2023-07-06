@@ -9,6 +9,8 @@ const ArtworkLocationModel = require('./ArtworkLocation');
 const ArtworkMaterialModel = require('./ArtworkMaterial');
 const ArtworkPriceModel = require('./ArtworkPrice');
 const WorkerModel = require('./Worker');
+const WorkerPhoneNumberModel = require('./WorkerPhoneNumber');
+const WorkerEmergencyPhoneNumberModel = require("./WorkerEmergencyPhoneNumber")
 
 
 const Artist = ArtistModel(sequelize, DataTypes);
@@ -18,6 +20,8 @@ const ArtworkLocation = ArtworkLocationModel(sequelize, DataTypes);
 const ArtworkMaterial = ArtworkMaterialModel(sequelize, DataTypes);
 const ArtworkPrice = ArtworkPriceModel(sequelize, DataTypes);
 const Worker = WorkerModel(sequelize, DataTypes);
+const WorkerPhoneNumber = WorkerPhoneNumberModel(sequelize, DataTypes);
+const WorkerEmergencyPhoneNumber = WorkerEmergencyPhoneNumberModel(sequelize, DataTypes);
 
 
 // tarife ravabet
@@ -87,6 +91,33 @@ ArtworkPrice.belongsTo(Artwork, {
     as: 'artwork'
 });
 
+// worker => workerPhoneNumber
+Worker.hasMany(WorkerPhoneNumber, {
+    foreignKey: 'workerId',
+    sourceKey: 'workerId',
+    as: 'phoneNumbers'
+});
+
+WorkerPhoneNumber.belongsTo(Worker, {
+    foreignKey: 'workerId',
+    targetKey: 'workerId',
+    as: 'worker'
+});
+
+// WorkerT => WorkerEmergencyPhoneNumberT
+Worker.hasMany(WorkerEmergencyPhoneNumber, {
+    foreignKey: 'workerId',
+    sourceKey: 'workerId',
+    as: 'emergencyPhoneNumbers'
+});
+
+WorkerEmergencyPhoneNumber.belongsTo(Worker, {
+    foreignKey: 'workerId',
+    targetKey: 'workerId',
+    as: 'worker'
+});
+
+
 module.exports = {
     Artist,
     ArtistPhoneNumber,
@@ -95,6 +126,8 @@ module.exports = {
     ArtworkMaterial,
     ArtworkPrice,
     Worker,
+    WorkerPhoneNumber,
+    WorkerEmergencyPhoneNumber,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };
