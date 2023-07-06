@@ -1,5 +1,5 @@
 const db = require('../models');
-const ArtworkMaterial = db.artworkMaterials;
+const ArtworkMaterial = db.ArtworkMaterial;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -45,26 +45,31 @@ exports.findAll = (req, res) => {
         });
 };
 
-// Find a single Artwork Material with an id
-exports.findOne = (req, res) => {
+exports.findAllByArtworkId = (req, res) => {
     const id = req.params.id;
 
-    ArtworkMaterial.findByPk(id)
+    ArtworkMaterial.findAll({
+        where: { artworkId_material_fk: id }
+    })
         .then(data => {
             res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Artwork Material with id=" + id
+                message: "Error retrieving Artwork Materials with artwork_material_fk=" + id,
+                detailedError: err.message 
             });
         });
 };
 
+
 exports.update = (req, res) => {
     const id = req.params.id;
+    const material = req.params.material;
 
     ArtworkMaterial.update(req.body, {
-        where: { artworkId_material_fk: id }
+        where: { artworkId_material_fk: id,
+                 material: material }
     })
         .then(num => {
             if (num == 1) {
@@ -84,14 +89,14 @@ exports.update = (req, res) => {
         });
 };
 
-exports.delete = (req, res) => {
+exports.deleteAllMaterials = (req, res) => {
     const id = req.params.id;
 
     ArtworkMaterial.destroy({
         where: { artworkId_material_fk: id }
     })
         .then(num => {
-            if (num == 1) {
+            if (num >= 1) {
                 res.status(200).send({
                     message: "Artwork Material was deleted successfully!"
                 });

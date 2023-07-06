@@ -1,5 +1,5 @@
 const db = require('../models');
-const ArtworkLocation = db.artworkLocations;
+const ArtworkLocation = db.ArtworkLocation;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -26,7 +26,7 @@ exports.create = (req, res) => {
 
     const artworkLocation = {
         artworkId_location_fk: req.body.artworkId_location_fk,
-        date: req.body.date,
+        date: new Date(req.body.date),
         location: req.body.location
     };
 
@@ -55,64 +55,94 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.findOne = (req, res) => {
-    const id = req.params.id;
+exports.findAllByArtworkId = (req, res) => {
+    const artworkId = req.params.artworkId;
 
-    ArtworkLocation.findByPk(id)
+    ArtworkLocation.findAll({ where: { artworkId_location_fk: artworkId } })
         .then(data => {
             res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Artwork Location with id=" + id
+                message: "Error retrieving Artwork Locations for artwork id=" + artworkId,
+                detailedError: err.message
+            });
+        });
+};
+
+
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+    const date = req.params.date;
+
+    ArtworkLocation.findOne({
+        where: {
+        artworkId_location_fk: id,
+        date: date
+    }})
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving Artwork Location with id=" + id,
+                detailedError: err.message 
             });
         });
 };
 
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
+    const date = req.params.date;
 
     ArtworkLocation.update(req.body, {
-        where: { artworkId_location_fk: id }
+        where: { 
+            artworkId_location_fk: id,
+            date: date 
+        }
     })
-        .then(num => {
-            if (num == 1) {
-                res.status(200).send({
-                    message: "Artwork Location was updated successfully."
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update Artwork Location with id=${id}. Maybe Artwork Location was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating Artwork Location with id=" + id
+    .then(num => {
+        if (num[0] >= 1) {
+            res.send({
+                message: "Artwork Location was updated successfully."
             });
+        } else {
+            res.send({
+                message: `Cannot update Artwork Location with id=${id}. Maybe Artwork Location was not found or req.body is empty!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error updating Artwork Location with id=" + id + " and date=" + date,
+            detailedError: err.message
         });
+    });
 };
 
-exports.delete = (req, res) => {
+
+
+exports.deleteAllLocations = (req, res) => {
     const id = req.params.id;
 
     ArtworkLocation.destroy({
         where: { artworkId_location_fk: id }
     })
         .then(num => {
-            if (num == 1) {
+            if (num >= 1) {
                 res.status(200).send({
-                    message: "Artwork Location was deleted successfully!"
+                    message: `${num} Artwork Location(s) were deleted successfully!`
                 });
             } else {
                 res.status(404).send({
-                    message: `Cannot delete Artwork Location with id=${id}. Maybe Artwork Location was not found!`
+                    message: `Cannot delete Artwork Locations with id=${id}. Maybe Artwork Locations were not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Artwork Location with id=" + id
+                message: "Could not delete Artwork Locations with id=" + id,
+                detailedError: err.message
             });
         });
 };

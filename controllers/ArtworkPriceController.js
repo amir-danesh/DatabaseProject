@@ -1,5 +1,5 @@
 const db = require('../models');
-const ArtworkPrice = db.artworkPrices;
+const ArtworkPrice = db.ArtworkPrice;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -53,10 +53,10 @@ exports.findAll = (req, res) => {
         });
 };
 
-exports.findOne = (req, res) => {
+exports.findAllByArtworkId = (req, res) => {
     const id = req.params.id;
 
-    ArtworkPrice.findByPk(id)
+    ArtworkPrice.findAll({where: {artwork_price_fk: id}})
         .then(data => {
             res.status(200).send(data);
         })
@@ -68,37 +68,43 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
+    const date = req.params.date;
 
     ArtworkPrice.update(req.body, {
-        where: { artwork_price_fk: id }
+        where: { 
+            artwork_price_fk: id,
+            date: date 
+        }
     })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Artwork Price was updated successfully."
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update Artwork Price with id=${id}. Maybe Artwork Price was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating Artwork Price with id=" + id
+    .then(num => {
+        if (num[0] >= 1) {
+            res.send({
+                message: "Artwork Price was updated successfully."
             });
+        } else {
+            res.send({
+                message: `Cannot update Artwork Price with id=${id} and date=${date}. Maybe Artwork Price was not found or req.body is empty!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error updating Artwork Price with id=" + id + " and date=" + date,
+            detailedError: err.message
         });
+    });
 };
 
-exports.delete = (req, res) => {
+
+exports.deleteAllPrices = (req, res) => {
     const id = req.params.id;
 
     ArtworkPrice.destroy({
         where: { artwork_price_fk: id }
     })
         .then(num => {
-            if (num == 1) {
+            if (num >= 1) {
                 res.status(200).send({
                     message: "Artwork Price was deleted successfully!"
                 });

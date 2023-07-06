@@ -6,10 +6,12 @@ router.post('/api/artwork-locations', artworkLocationController.create);
 
 router.get('/api/artwork-locations', artworkLocationController.findAll);
 
-router.get('/api/artwork-locations/:id', artworkLocationController.findOne);
+router.get('/api/artwork-locations/by-artwork/:artworkId', artworkLocationController.findAllByArtworkId);
 
-router.put('/api/artwork-locations/:id', artworkLocationController.update);
+router.get('/api/artwork-locations/:id/:date', artworkLocationController.findOne);
 
-router.delete('/api/artwork-locations/:id', artworkLocationController.delete);
+router.put('/api/artwork-locations/:id/:date', artworkLocationController.update);
+
+router.delete('/api/artwork-locations/:id', artworkLocationController.deleteAllLocations);
 
 module.exports = router;

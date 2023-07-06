@@ -6,10 +6,10 @@ router.post('/api/artwork-materials', artworkMaterialController.create);
 
 router.get('/api/artwork-materials', artworkMaterialController.findAll);
 
-router.get('/api/artwork-materials/:id', artworkMaterialController.findOne);
+router.get('/api/artwork-materials/by-artwork/:id', artworkMaterialController.findAllByArtworkId);
 
-router.put('/api/artwork-materials/:id', artworkMaterialController.update);
+router.put('/api/artwork-materials/:id/:material', artworkMaterialController.update);
 
-router.delete('/api/artwork-materials/:id', artworkMaterialController.delete);
+router.delete('/api/artwork-materials/:id', artworkMaterialController.deleteAllMaterials);
 
 module.exports = router;

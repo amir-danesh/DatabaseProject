@@ -6,10 +6,10 @@ router.post('/api/artwork-prices', artworkPriceController.create);
 
 router.get('/api/artwork-prices', artworkPriceController.findAll);
 
-router.get('/api/artwork-prices/:id', artworkPriceController.findOne);
+router.get('/api/artwork-prices/:id', artworkPriceController.findAllByArtworkId);
 
-router.put('/api/artwork-prices/:id', artworkPriceController.update);
+router.put('/api/artwork-prices/:id/:date', artworkPriceController.update);
 
-router.delete('/api/artwork-prices/:id', artworkPriceController.delete);
+router.delete('/api/artwork-prices/:id', artworkPriceController.deleteAllPrices);
 
 module.exports = router;
