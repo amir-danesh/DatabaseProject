@@ -15,6 +15,7 @@ const VisitorModel = require("./Visitor");
 const RoomModel = require("./Room");
 const ExhibitionModel = require("./Exhibition");
 const RoomExhibitionAssociationModel = require("./RoomExhibitionAssociation");
+const ArtworkExhibitionAssociationModel = require("./ArtworkExhibitionAssociation");
 
 
 const Artist = ArtistModel(sequelize, DataTypes);
@@ -30,6 +31,7 @@ const Visitor = VisitorModel(sequelize, DataTypes);
 const Room = RoomModel(sequelize, DataTypes);
 const Exhibition = ExhibitionModel(sequelize, DataTypes);
 const RoomExhibitionAssociation = RoomExhibitionAssociationModel(sequelize, DataTypes);
+const ArtworkExhibitionAssociation = ArtworkExhibitionAssociationModel(sequelize, DataTypes);
 
 
 // tarife ravabet
@@ -164,6 +166,33 @@ RoomExhibitionAssociation.belongsTo(Exhibition, {
     as: 'exhibition'
 });
 
+// ArtworkT ==> ArtworkExhibitionAssociationT
+Artwork.hasMany(ArtworkExhibitionAssociation, {
+    foreignKey: 'artworkId',
+    sourceKey: 'artworkId',
+    as: 'exhibitions'
+});
+
+ArtworkExhibitionAssociation.belongsTo(Artwork, {
+    foreignKey: 'artworkId',
+    targetKey: 'artworkId',
+    as: 'artwork'
+});
+
+// ExhibitionT ==> ArtworkExhibitionAssociationT
+Exhibition.hasMany(ArtworkExhibitionAssociation, {
+    foreignKey: 'exhibitionId',
+    sourceKey: 'exhibitionId',
+    as: 'artworks'
+});
+
+ArtworkExhibitionAssociation.belongsTo(Exhibition, {
+    foreignKey: 'exhibitionId',
+    targetKey: 'exhibitionId',
+    as: 'exhibition'
+});
+
+
 
 
 
@@ -181,6 +210,7 @@ module.exports = {
     Room,
     Exhibition,
     RoomExhibitionAssociation,
+    ArtworkExhibitionAssociation,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };
