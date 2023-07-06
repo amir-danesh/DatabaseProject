@@ -17,9 +17,10 @@ const artworkMaterialRoutes = require('./routes/artworkMaterial.routes');
 const artworkPriceRoutes = require('./routes/artworkPrice.routes');
 const workerRoutes = require('./routes/worker.routes');
 const workerPhoneNumberRoutes = require('./routes/workerPhoneNumber.routes');
-const WorkerEmergencyPhoneNumberRoutes = require("./routes/workerEmergencyPhoneNumber.routes")
-const VisitorRoutes = require("./routes/visitor.routes")
-const RoomRoutes = require("./routes/room.routes")
+const WorkerEmergencyPhoneNumberRoutes = require("./routes/workerEmergencyPhoneNumber.routes");
+const VisitorRoutes = require("./routes/visitor.routes");
+const RoomRoutes = require("./routes/room.routes");
+const ExhibitionRoutes = require("./routes/exhibition.routes");
 
 app.use(artistRoutes);
 app.use(artistPhoneNumberRoutes);
@@ -32,6 +33,7 @@ app.use(workerPhoneNumberRoutes);
 app.use(WorkerEmergencyPhoneNumberRoutes);
 app.use(VisitorRoutes);
 app.use(RoomRoutes);
+app.use(ExhibitionRoutes);
 
 // Set port, listen for requests
 const PORT = process.env.PORT || 3001;

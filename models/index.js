@@ -13,6 +13,7 @@ const WorkerPhoneNumberModel = require('./WorkerPhoneNumber');
 const WorkerEmergencyPhoneNumberModel = require("./WorkerEmergencyPhoneNumber");
 const VisitorModel = require("./Visitor");
 const RoomModel = require("./Room");
+const ExhibitionModel = require("./Exhibition");
 
 
 const Artist = ArtistModel(sequelize, DataTypes);
@@ -26,6 +27,7 @@ const WorkerPhoneNumber = WorkerPhoneNumberModel(sequelize, DataTypes);
 const WorkerEmergencyPhoneNumber = WorkerEmergencyPhoneNumberModel(sequelize, DataTypes);
 const Visitor = VisitorModel(sequelize, DataTypes);
 const Room = RoomModel(sequelize, DataTypes);
+const Exhibition = ExhibitionModel(sequelize, DataTypes);
 
 
 // tarife ravabet
@@ -121,6 +123,20 @@ WorkerEmergencyPhoneNumber.belongsTo(Worker, {
     as: 'worker'
 });
 
+// WorkerT => ExhibitionT
+Worker.hasMany(Exhibition, {
+    foreignKey: 'workerId',
+    sourceKey: 'workerId',
+    as: 'exhibitions'
+});
+
+Exhibition.belongsTo(Worker, {
+    foreignKey: 'workerId',
+    targetKey: 'workerId',
+    as: 'worker'
+});
+
+
 
 module.exports = {
     Artist,
@@ -134,6 +150,7 @@ module.exports = {
     WorkerEmergencyPhoneNumber,
     Visitor,
     Room,
+    Exhibition,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };
