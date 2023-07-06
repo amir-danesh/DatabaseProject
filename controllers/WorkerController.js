@@ -65,14 +65,11 @@ exports.findOne = (req, res) => {
 
 exports.update = (req, res) => {
     const id = req.params.id;
-    console.log(id);
-    console.log(req.body);
 
     Worker.update(req.body, {
         where: { workerId: id }
     })
         .then(num => {
-            console.log(num == 0);
             if (num == 1) {
                 res.status(200).send({
                     message: "Worker was updated successfully."
