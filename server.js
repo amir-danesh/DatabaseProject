@@ -15,6 +15,7 @@ const artworkRoutes = require('./routes/artwork.routes');
 const artworkLocationRoutes = require('./routes/artworkLocation.routes');
 const artworkMaterialRoutes = require('./routes/artworkMaterial.routes');
 const artworkPriceRoutes = require('./routes/artworkPrice.routes');
+const workerRoutes = require('./routes/worker.routes');
 
 app.use(artistRoutes);
 app.use(artistPhoneNumberRoutes);
@@ -22,6 +23,7 @@ app.use(artworkRoutes);
 app.use(artworkLocationRoutes);
 app.use(artworkMaterialRoutes);
 app.use(artworkPriceRoutes);
+app.use(workerRoutes);
 
 // Set port, listen for requests
 const PORT = process.env.PORT || 3001;

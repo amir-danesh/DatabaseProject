@@ -8,6 +8,8 @@ const ArtworkModel = require('./Artwork');
 const ArtworkLocationModel = require('./ArtworkLocation');
 const ArtworkMaterialModel = require('./ArtworkMaterial');
 const ArtworkPriceModel = require('./ArtworkPrice');
+const WorkerModel = require('./Worker');
+
 
 const Artist = ArtistModel(sequelize, DataTypes);
 const ArtistPhoneNumber = ArtistPhoneNumberModel(sequelize, DataTypes);
@@ -15,6 +17,8 @@ const Artwork = ArtworkModel(sequelize, DataTypes);
 const ArtworkLocation = ArtworkLocationModel(sequelize, DataTypes);
 const ArtworkMaterial = ArtworkMaterialModel(sequelize, DataTypes);
 const ArtworkPrice = ArtworkPriceModel(sequelize, DataTypes);
+const Worker = WorkerModel(sequelize, DataTypes);
+
 
 // tarife ravabet
 
@@ -90,6 +94,7 @@ module.exports = {
     ArtworkLocation,
     ArtworkMaterial,
     ArtworkPrice,
+    Worker,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };
