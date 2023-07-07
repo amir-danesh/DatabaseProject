@@ -21,6 +21,7 @@ const TicketPriceModel = require("./TicketPrice");
 const VisitorFeedbackModel = require("./VisitorFeedback");
 const SaleModel = require("./Sale");
 const PartnershipModel = require("./Partnership");
+const ArtworkLoanModel = require("./ArtworkLoan");
 
 
 const Artist = ArtistModel(sequelize, DataTypes);
@@ -42,6 +43,7 @@ const TicketPrice = TicketPriceModel(sequelize, DataTypes);
 const VisitorFeedback = VisitorFeedbackModel(sequelize, DataTypes);
 const Sale = SaleModel(sequelize, DataTypes);
 const Partnership = PartnershipModel(sequelize, DataTypes);
+const ArtworkLoan = ArtworkLoanModel(sequelize, DataTypes);
 
 
 // tarife ravabet
@@ -293,6 +295,46 @@ Sale.belongsTo(Visitor, {
     as: 'visitor'
 });
 
+// Artwork => ArtworkLoan
+Artwork.hasMany(ArtworkLoan, {
+    foreignKey: 'artworkId',
+    sourceKey: 'artworkId',
+    as: 'artworkLoans'
+});
+
+ArtworkLoan.belongsTo(Artwork, {
+    foreignKey: 'artworkId',
+    targetKey: 'artworkId',
+    as: 'artwork'
+});
+
+// Partnership => ArtworkLoan
+Partnership.hasMany(ArtworkLoan, {
+    foreignKey: 'partnershipId',
+    sourceKey: 'partnershipId',
+    as: 'artworkLoans'
+});
+
+ArtworkLoan.belongsTo(Partnership, {
+    foreignKey: 'partnershipId',
+    targetKey: 'partnershipId',
+    as: 'partnership'
+});
+
+// Worker => ArtworkLoan
+Worker.hasMany(ArtworkLoan, {
+    foreignKey: 'workerId',
+    sourceKey: 'workerId',
+    as: 'artworkLoans'
+});
+
+ArtworkLoan.belongsTo(Worker, {
+    foreignKey: 'workerId',
+    targetKey: 'workerId',
+    as: 'worker'
+});
+
+
 
 module.exports = {
     Artist,
@@ -314,6 +356,7 @@ module.exports = {
     VisitorFeedback,
     Sale,
     Partnership,
+    ArtworkLoan,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };

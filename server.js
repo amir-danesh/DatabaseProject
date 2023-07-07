@@ -28,6 +28,7 @@ const TicketPriceRoutes = require("./routes/ticketPrice.routes");
 const VisitorFeedbackRoutes = require("./routes/visitorFeedback.routes");
 const SaleRoutes = require("./routes/sale.routes");
 const PartnershipRoutes = require("./routes/partnership.routes");
+const ArtworkLoanRoutes = require("./routes/artworkLoan.routes");
 
 app.use(artistRoutes);
 app.use(artistPhoneNumberRoutes);
@@ -48,6 +49,7 @@ app.use(TicketPriceRoutes);
 app.use(VisitorFeedbackRoutes);
 app.use(SaleRoutes);
 app.use(PartnershipRoutes);
+app.use(ArtworkLoanRoutes);
 
 // Set port, listen for requests
 const PORT = process.env.PORT || 3001;
