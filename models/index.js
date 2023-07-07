@@ -17,6 +17,7 @@ const ExhibitionModel = require("./Exhibition");
 const RoomExhibitionAssociationModel = require("./RoomExhibitionAssociation");
 const ArtworkExhibitionAssociationModel = require("./ArtworkExhibitionAssociation");
 const TicketModel = require("./Ticket");
+const TicketPriceModel = require("./TicketPrice");
 
 
 const Artist = ArtistModel(sequelize, DataTypes);
@@ -34,6 +35,7 @@ const Exhibition = ExhibitionModel(sequelize, DataTypes);
 const RoomExhibitionAssociation = RoomExhibitionAssociationModel(sequelize, DataTypes);
 const ArtworkExhibitionAssociation = ArtworkExhibitionAssociationModel(sequelize, DataTypes);
 const Ticket = TicketModel(sequelize, DataTypes);
+const TicketPrice = TicketPriceModel(sequelize, DataTypes);
 
 
 // tarife ravabet
@@ -220,6 +222,20 @@ Ticket.belongsTo(Visitor, {
     as: 'visitor'
 });
 
+// TicketT ==> TicketPriceT
+Ticket.hasMany(TicketPrice, {
+    foreignKey: 'ticketId',
+    sourceKey: 'ticketId',
+    as: 'prices'
+});
+
+TicketPrice.belongsTo(Ticket, {
+    foreignKey: 'ticketId',
+    targetKey: 'ticketId',
+    as: 'ticket'
+});
+
+
 
 module.exports = {
     Artist,
@@ -237,6 +253,7 @@ module.exports = {
     RoomExhibitionAssociation,
     ArtworkExhibitionAssociation,
     Ticket,
+    TicketPrice,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };
