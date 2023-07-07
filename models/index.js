@@ -20,6 +20,7 @@ const TicketModel = require("./Ticket");
 const TicketPriceModel = require("./TicketPrice");
 const VisitorFeedbackModel = require("./VisitorFeedback");
 const SaleModel = require("./Sale");
+const PartnershipModel = require("./Partnership");
 
 
 const Artist = ArtistModel(sequelize, DataTypes);
@@ -40,6 +41,7 @@ const Ticket = TicketModel(sequelize, DataTypes);
 const TicketPrice = TicketPriceModel(sequelize, DataTypes);
 const VisitorFeedback = VisitorFeedbackModel(sequelize, DataTypes);
 const Sale = SaleModel(sequelize, DataTypes);
+const Partnership = PartnershipModel(sequelize, DataTypes);
 
 
 // tarife ravabet
@@ -311,6 +313,7 @@ module.exports = {
     TicketPrice,
     VisitorFeedback,
     Sale,
+    Partnership,
     Sequelize: dbConfig.Sequelize,
     sequelize
 };
