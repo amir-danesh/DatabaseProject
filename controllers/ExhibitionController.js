@@ -124,7 +124,6 @@ exports.delete = (req, res) => {
 };
 
 exports.setPriceForUnsoldTickets = (req, res) => {
-    console.log("xxxxxxxx");
     const exhibitionId = req.params.exhibitionId;
     const newPrice = req.body.price;
 
