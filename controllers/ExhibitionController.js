@@ -1,5 +1,7 @@
 const db = require('../models');
 const Exhibition = db.Exhibition;
+const Ticket = db.Ticket;
+const TicketPrice = db.TicketPrice;
 const Worker = db.Worker;
 
 exports.create = (req, res) => {
@@ -118,5 +120,37 @@ exports.delete = (req, res) => {
             res.status(500).send({
                 message: "Could not delete Exhibition with id=" + id
             });
+        });
+};
+
+exports.setPriceForUnsoldTickets = (req, res) => {
+    console.log("xxxxxxxx");
+    const exhibitionId = req.params.exhibitionId;
+    const newPrice = req.body.price;
+
+    if(!newPrice) {
+        res.status(400).send({ message: "New price must be provided!" });
+        return;
+    }
+
+    Ticket.findAll({ where: { exhibitionId: exhibitionId, nationalCode: null }})
+        .then(tickets => {
+            if (!tickets) {
+                res.status(404).send({ message: "No unsold tickets found for this exhibition!" });
+                return;
+            }
+
+            tickets.forEach((ticket) => {
+                TicketPrice.create({
+                    ticketId: ticket.ticketId,
+                    date: new Date(),
+                    price: newPrice
+                });
+            });
+
+            res.send({ message: "Price updated for all unsold tickets!" });
+        })
+        .catch(err => {
+            res.status(500).send({ message: "Error updating price for unsold tickets" });
         });
 };
