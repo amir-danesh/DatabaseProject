@@ -12,4 +12,6 @@ router.put('/api/artworks/:id', artworkController.update);
 
 router.delete('/api/artworks/:id', artworkController.delete);
 
+router.get('/api/artworks/artist/:artistId', artworkController.findAllByArtist);
+
 module.exports = router;

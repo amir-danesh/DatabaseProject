@@ -84,7 +84,6 @@ exports.update = (req, res) => {
         });
 };
 
-// Delete an Artwork with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
@@ -105,6 +104,20 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: "Could not delete Artwork with id=" + id
+            });
+        });
+};
+
+exports.findAllByArtist = (req, res) => {
+    const artistId = req.params.artistId;
+
+    Artwork.findAll({ where: { artistId_artwork_fk: artistId } })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `Error retrieving Artworks for artist with id=${artistId}`
             });
         });
 };
